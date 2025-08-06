@@ -35,25 +35,16 @@
       input.value = "";
 
       try {
-        const response = await fetch("https://api.openai.com/v1/chat/completions", {
+        const response = await fetch("/api/chat", {
           method: "POST",
           headers: {
-            "Content-Type": "application/json",
-            "Authorization": "Bearer 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"
-
-
+            "Content-Type": "application/json"
           },
-          body: JSON.stringify({
-            model: "gpt-3.5-turbo",
-            messages: [
-              { role: "system", content: "You are an AI assistant who speaks Tamil and helps Indian farmers with agricultural advice." },
-              { role: "user", content: question }
-            ]
-          })
+          body: JSON.stringify({ message: question })
         });
 
         const data = await response.json();
-        const reply = data.choices?.[0]?.message?.content || "பதிலை பெற முடியவில்லை.";
+        const reply = data.reply || "பதிலை பெற முடியவில்லை.";
         chat.innerHTML += `🤖: ${reply}\n`;
         chat.scrollTop = chat.scrollHeight;
       } catch (error) {
